@@ -45,7 +45,7 @@ function App() {
         // TODO: Navigaet to score screen
       }
     }
-    if (index > item.length) {
+    if (index >= item.length - 1) {
       setIndex(0);
     }
   };
