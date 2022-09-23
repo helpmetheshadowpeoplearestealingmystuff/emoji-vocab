@@ -3,21 +3,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { useState, createContext } from 'react';
 import './App.css';
 import Twemoji from './Twemoji';
-
-// The top ten emoji used worldwide are 😂 ❤️ 🤣 👍 😭 🙏 😘 🥰 😍 😊
-// https://home.unicode.org/emoji/emoji-frequency/
-// TODO: implement bloom filter
-const items: {emoji: string, synonyms: string[]}[] = [
-  {emoji: '👋', synonyms: ['wave']},
-  {emoji: '😂', synonyms: ['joy']},
-  {emoji: '❤️', synonyms: ['heart']},
-  {emoji: '🙏️', synonyms: ['pray']},
-  {emoji: '😘️', synonyms: ['kiss']},
-  {emoji: '🥰️', synonyms: ['hearts']},
-  {emoji: '😍️', synonyms: ['hearteyes']},
-  {emoji: '😊️', synonyms: ['smile']},
-  {emoji: '👍️', synonyms: ['thumbsup']},
-]
+import items from './Items'
 
 function Test({index, setIndex, answers, setAnswers, isEnded}: {index: number, setIndex: React.Dispatch<React.SetStateAction<number>>, answers: string[], setAnswers: React.Dispatch<React.SetStateAction<string[]>>, isEnded: React.Dispatch<React.SetStateAction<boolean>>}) {
   const [runningFailures, setRunningFailures] = useState(0);

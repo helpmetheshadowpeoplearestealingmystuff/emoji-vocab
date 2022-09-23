@@ -1,8 +1,9 @@
-import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { createTheme, Spacer, NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { useState } from 'react';
 import './App.css';
 import Test from './Test';
+import items from './Items';
 
 const lightTheme = createTheme({
   type: 'light',
@@ -37,7 +38,9 @@ function App() {
          }}
     >
         <div className="App-content">
-          score: {answers.join(" ")}
+      score: {(() => {let acc = 0; answers.forEach((answer, i) => {if (items[i].synonyms[0] === answer) { acc += 1; }}, {}); return acc})()}
+        <Spacer y={1} />
+          save: {btoa(answers.join(" "))}
         </div>
       </div>
         </NextUIProvider>
