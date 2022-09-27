@@ -4,6 +4,9 @@ import { useState } from 'react';
 import './App.css';
 import Test from './Test';
 import items from './Items';
+import keywords from 'emoji-synonyms';
+type Synonyms = { [key: string]: string[] };
+const synonyms = keywords as Synonyms;
 
 const lightTheme = createTheme({
   type: 'light',
@@ -38,7 +41,7 @@ function App() {
          }}
     >
         <div className="App-content">
-      score: {(() => {let acc = 0; answers.forEach((answer, i) => {if (items[i].synonyms[0] === answer) { acc += 1; }}, {}); return acc})()}
+      score: {(() => {let acc = 0; answers.forEach((answer, i) => {if (synonyms[items[i].synonyms[0]]?.find(x => x===answer)) { acc += 1; }}, {}); return acc})()}
         <Spacer y={1} />
           save: {btoa(answers.join(" "))}
         </div>
