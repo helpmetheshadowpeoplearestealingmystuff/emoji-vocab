@@ -6,6 +6,7 @@
 Discontinues at 3 wrongs in a row.
 Score is raw, save is base64-ed asnswers.
 Single word only
+uses a levenstein filter to protect against user typos, any answer with a distance of 1 or less is considered correct
 
 ## TODO
 
@@ -14,7 +15,6 @@ Single word only
  - ending mechanism
  - validation
  - obfuscation
- - levenstein distance
 
 ## Available Scripts
 
