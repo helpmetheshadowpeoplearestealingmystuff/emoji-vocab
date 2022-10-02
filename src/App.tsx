@@ -36,47 +36,48 @@ function App() {
         }}
       >
         <NextUIProvider>
-    <div className="App"
-         style={{
-           background: "$background",
-         }}
-    >
-        <div className="App-content">
-      score: {score}
-        <Spacer y={1} />
-          save: {btoa(answers.join(" "))}
-        </div>
-      </div>
+          <div className="App"
+               style={{
+                 background: "$background",
+               }}
+          >
+            <div className="App-content">
+              score: {score}
+              {/* <Spacer y={1} />
+                  save: {btoa(answers.join(" "))} */}
+            </div>
+          </div>
         </NextUIProvider>
       </NextThemesProvider>
-)} else {
-  return (
-    <NextThemesProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        light: lightTheme.className,
-        dark: darkTheme.className
-      }}
-    >
-      <NextUIProvider>
-        <div className="App"
-             style={{
-               background: "$background",
-             }}
-        >
-          <Test
-            index={index}
-            setIndex={setIndex}
-            score={score}
-            setScore={setScore}
-            setAnswers={setAnswers}
-            isEnded={setEnded}
-          />
-        </div>
-      </NextUIProvider>
-    </NextThemesProvider>
-  )
+  )} else {
+    return (
+      <NextThemesProvider
+        defaultTheme="system"
+        attribute="class"
+        value={{
+          light: lightTheme.className,
+          dark: darkTheme.className
+        }}
+      >
+        <NextUIProvider>
+          <div className="App"
+               style={{
+                 background: "$background",
+               }}
+          >
+            <Test
+              answers={answers}
+              index={index}
+              setIndex={setIndex}
+              score={score}
+              setScore={setScore}
+              setAnswers={setAnswers}
+              isEnded={setEnded}
+            />
+          </div>
+        </NextUIProvider>
+      </NextThemesProvider>
+    )
 }
 }
 

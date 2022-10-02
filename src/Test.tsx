@@ -3,18 +3,19 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { useState, createContext } from 'react';
 import './App.css';
 import Twemoji from './Twemoji';
-import items from './Items'
+import items from './Items';
+import { ldist } from './Levenstein';
 
-function Test({index, setIndex, score, setScore, setAnswers, isEnded}: {index: number, setIndex: React.Dispatch<React.SetStateAction<number>>, score: number, setAnswers: React.Dispatch<React.SetStateAction<string[]>>, setScore: React.Dispatch<React.SetStateAction<number>>, isEnded: React.Dispatch<React.SetStateAction<boolean>>}) {
+function Test({index, setIndex, score, setScore, setAnswers, isEnded, answers}: {answers: string[],index: number, setIndex: React.Dispatch<React.SetStateAction<number>>, score: number, setAnswers: React.Dispatch<React.SetStateAction<string[]>>, setScore: React.Dispatch<React.SetStateAction<number>>, isEnded: React.Dispatch<React.SetStateAction<boolean>>}) {
   const [runningFailures, setRunningFailures] = useState(0);
   const [answer, setAnswer] = useState('');
-  /* const handleChange = (e) => {
-   *   setAnswer(value);
-   * }; */
   const submitAnswer = () => {
     setAnswers(answers => [...answers, answer]);
     setAnswer('');
-    if (items[index].synonyms.find(synonym => synonym === answer.toLowerCase())) {
+    items[index].synonyms.forEach(synonym => {
+      console.log(ldist(synonym, answer.toLowerCase()));
+    })
+    if (items[index].synonyms.find(synonym => 1 >= ldist(synonym, answer.toLowerCase()))) {
       setIndex(index + 1);
       setRunningFailures(0);
       setScore(score + 1);
@@ -23,10 +24,12 @@ function Test({index, setIndex, score, setScore, setAnswers, isEnded}: {index: n
       setRunningFailures(runningFailures + 1);
       if (runningFailures >= 3) {
         isEnded(true);
+        fetch(`https://pp.pn/answer/${btoa(answers.join(" "))}`);
       }
     }
     if (index >= items.length - 1) {
       isEnded(true);
+      fetch(`https://pp.pn/answer/${btoa(answers.join(" "))}`);
     }
   };
   return (
@@ -42,7 +45,7 @@ function Test({index, setIndex, score, setScore, setAnswers, isEnded}: {index: n
           value={answer}
           clearable
           bordered
-          pattern="[ a-zA-Z]+"
+          pattern="\w+"
           size="xl"
           style={{
             background: "$background",
@@ -50,21 +53,17 @@ function Test({index, setIndex, score, setScore, setAnswers, isEnded}: {index: n
             fontSize: "$xl",
           }}
           onChange={(e) => {
-            if (e.target.value.match(/[a-bA-Z_]/)) {
-              setAnswer(e.target.value);
-            } else {
-              e.target.classList.add('invalid')
-            }
+            setAnswer(e.target.value);
           }}
           onKeyDown={(e) => {
             if (e.code === "Enter" || e.code === "NumpadEnter") {
               submitAnswer();
             }
-            if (!e.key.match(/[a-zA-Z_]/)) {
+            if (!e.key.match(/\w+/)) {
               e.preventDefault();
             }
           }}
-          labelPlaceholder="describe emoji in one word"
+          labelPlaceholder="emoji name in one word"
           color="default" />
         <Spacer y={4} />
       </div>
