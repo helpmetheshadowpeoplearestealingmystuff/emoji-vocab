@@ -5,7 +5,7 @@ import './App.css';
 import Twemoji from './Twemoji';
 import items from './Items'
 
-function Test({index, setIndex, answers, setAnswers, isEnded}: {index: number, setIndex: React.Dispatch<React.SetStateAction<number>>, answers: string[], setAnswers: React.Dispatch<React.SetStateAction<string[]>>, isEnded: React.Dispatch<React.SetStateAction<boolean>>}) {
+function Test({index, setIndex, score, setScore, setAnswers, isEnded}: {index: number, setIndex: React.Dispatch<React.SetStateAction<number>>, score: number, setAnswers: React.Dispatch<React.SetStateAction<string[]>>, setScore: React.Dispatch<React.SetStateAction<number>>, isEnded: React.Dispatch<React.SetStateAction<boolean>>}) {
   const [runningFailures, setRunningFailures] = useState(0);
   const [answer, setAnswer] = useState('');
   /* const handleChange = (e) => {
@@ -17,6 +17,7 @@ function Test({index, setIndex, answers, setAnswers, isEnded}: {index: number, s
     if (items[index].synonyms.find(synonym => synonym === answer.toLowerCase())) {
       setIndex(index + 1);
       setRunningFailures(0);
+      setScore(score + 1);
     } else {
       setIndex(index + 1);
       setRunningFailures(runningFailures + 1);
@@ -41,7 +42,7 @@ function Test({index, setIndex, answers, setAnswers, isEnded}: {index: number, s
           value={answer}
           clearable
           bordered
-          pattern="\w+"
+          pattern="[ a-zA-Z]+"
           size="xl"
           style={{
             background: "$background",
@@ -49,19 +50,21 @@ function Test({index, setIndex, answers, setAnswers, isEnded}: {index: number, s
             fontSize: "$xl",
           }}
           onChange={(e) => {
-            if (!e.target.value.match(/\W/)) {
+            if (e.target.value.match(/[a-bA-Z_]/)) {
               setAnswer(e.target.value);
+            } else {
+              e.target.classList.add('invalid')
             }
           }}
           onKeyDown={(e) => {
             if (e.code === "Enter" || e.code === "NumpadEnter") {
               submitAnswer();
             }
-            if (!e.key.match(/[a-zA-Z]/)) {
+            if (!e.key.match(/[a-zA-Z_]/)) {
               e.preventDefault();
             }
           }}
-          labelPlaceholder="emoji name"
+          labelPlaceholder="describe emoji in one word"
           color="default" />
         <Spacer y={4} />
       </div>

@@ -4,9 +4,9 @@ import { useState } from 'react';
 import './App.css';
 import Test from './Test';
 import items from './Items';
-import keywords from 'emoji-synonyms';
-type Synonyms = { [key: string]: string[] };
-const synonyms = keywords as Synonyms;
+/* import keywords from 'emoji-synonyms';
+ * type Synonyms = { [key: string]: string[] };
+ * const synonyms = keywords as Synonyms; */
 
 const lightTheme = createTheme({
   type: 'light',
@@ -16,12 +16,13 @@ const darkTheme = createTheme({
   type: 'dark',
   theme: {
     colors: {
-      background: "282c34"
+      background: "282c34",
   }}
 });
 
 function App() {
   const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [ended, setEnded] = useState(false);
   if (ended) {
@@ -41,7 +42,7 @@ function App() {
          }}
     >
         <div className="App-content">
-      score: {(() => {let acc = 0; answers.forEach((answer, i) => {if (synonyms[items[i].synonyms[0]]?.find(x => x===answer)) { acc += 1; }}, {}); return acc})()}
+      score: {score}
         <Spacer y={1} />
           save: {btoa(answers.join(" "))}
         </div>
@@ -67,7 +68,8 @@ function App() {
           <Test
             index={index}
             setIndex={setIndex}
-            answers={answers}
+            score={score}
+            setScore={setScore}
             setAnswers={setAnswers}
             isEnded={setEnded}
           />
