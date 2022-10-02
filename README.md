@@ -2,6 +2,10 @@
 
 >A simple vocabulary test using emoji
 
+30 or so items, might want to make this selectable
+Discontinues at 3 wrongs in a row.
+Score is raw, save is base64-ed asnswers.
+Single word only
 
 ## TODO
 
@@ -10,6 +14,7 @@
  - ending mechanism
  - validation
  - obfuscation
+ - levenstein distance
 
 ## Available Scripts
 
